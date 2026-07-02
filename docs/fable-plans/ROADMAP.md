@@ -1,6 +1,6 @@
 # Roadmap — RankedAGI Raycast extension            (written 2026-07-02 by Claude Fable 5)
 
-**This file is the single source of truth for this initiative's plan and status.** The "Current phase" line and the checkboxes ARE the status. History lives in `docs/WORKLOG.md`. The main site's roadmap lives in the site repo (`../RankedAGI/docs/fable-plans/ROADMAP.md`) and covers a different initiative (score model v2); this initiative deliberately stays out of its way — see "Parallel-work rules" below.
+**This file is the single source of truth for this initiative's plan and status.** The "Current phase" line and the checkboxes ARE the status. History lives in `docs/WORKLOG.md`. The main site's roadmap lives in the site repo (`~/Development/Tavlean/RankedAGI/docs/fable-plans/ROADMAP.md`) and covers a different initiative (score model v2); this initiative deliberately stays out of its way — see "Parallel-work rules" below.
 
 Current phase: **R1 done; R2 + R3 BUILT (2026-07-02) — both unticked until Tav tries them in Raycast (`npm run dev` here, then browse both commands and ask @rankedagi a scores question). The endpoint goes live with the next site deploy; until then set the extension's Data URL preference to a local site dev server (`http://127.0.0.1:<port>/api/export`). Next after Tav's confirmation: R4 store submission (needs his Raycast handle).**
 
@@ -42,8 +42,13 @@ RankedAGI in the launcher: hit the Raycast hotkey, type a model name, and see ho
   Depends on: R2 (R3 nice-to-have but v1 with tools reviews better as one submission — decide at submission time whether to wait for R3).
   Done when: extension is live on the Raycast Store.
 
-## Later — deliberately
+## Later — deliberately (tracks the site's upcoming features)
 
+The site is mid-rebuild of what a "score" is (score-record v2). v1 of this extension already rides part of that foundation (per-reasoning-level scores render in the model detail). The entries below are the follow-ons; each becomes buildable when the matching site phase ships, and each is additive on the extension side.
+
+- **Per-score sources (receipts)** — nearest-term. The site's score-record v2 attaches ordered sources to every real score: first source = the shown value, optional note, a second value from a disagreeing source, retroactive-revision context (Tav's footnote model). The data side already exists: the site serves a slimmed, prerendered `/api/score-provenance` (draft AI-ingested entries excluded) keyed by model slug × benchmark key. Once Tav's real entries fill the sidecar (site Phase 4 ticking), add: source links per score in the model detail panel, a "where these numbers come from" block in benchmark detail, and AI tools citing the source URL when asked. Implementation choice then: fetch `/api/score-provenance` as a second cached dataset (zero site changes) or fold slimmed sources into `/api/export` (additive either way).
+- **Confidence / disagreeing-source display** — rides the same provenance data: when a cell holds two values from disagreeing sources, surface the second value + note instead of silently showing one number. Wait until the site settles its own display treatment (its Phase 6 / Nerd view) and mirror the language.
+- **Best-level semantics updates** — the site's Phase 6 decides collapsed-row semantics (coherent best level vs per-benchmark best) and expanded-level modes. The extension inherits collapse changes automatically through `/api/export` (it reuses the site's `$lib/families.js`), but re-check the level tables here after that phase lands.
 - **Menu-bar command** — current #1 model (or a pinned model) in the macOS menu bar; background refresh at a conservative interval (6–12 h). Tav explicitly deferred this from v1.
 - **Category leaderboard commands** — dedicated commands per composite if the R2 dropdown proves not enough.
 - **Simulated-score toggle** — would need the sidecar or a slimmed variant in the export; only if users ask.

@@ -2,6 +2,11 @@
 
 Newest entries first. Every session that changes the project appends: date, what changed, why, gotchas for the next model.
 
+## 2026-07-02 (evening) — Repo moved to ~/Development/RaycastExtensions/rankedagi; roadmap gains upcoming-site-features track
+
+- Tav: the extension belongs in his `RaycastExtensions` folder, not `Tavlean/`. Moved (git history intact); all cross-repo path references updated on BOTH sides (this repo's brief + roadmap; site repo's roadmap, brief, worklog, and the `exportDataset.js` comment). The site repo stays at `~/Development/Tavlean/RankedAGI`.
+- Roadmap "Later" section restructured to explicitly track the site's score-record v2 follow-ons, per Tav: **per-score sources/receipts** (nearest-term — the site already serves a slimmed prerendered `/api/score-provenance`; build when Tav's real entries fill it), confidence/disagreeing-source display, and a re-check of level tables after the site's Phase 6 settles collapsed-row semantics.
+
 ## 2026-07-02 (later, same session) — R3 built: four AI tools + ai.yaml
 
 - Tools `search-models` / `get-model` / `rank-models-by-benchmark` / `compare-models` in `src/tools/`, manifest `tools` array, `ai.yaml` with instructions + 3 evals. Executed by Codex from a spec brief; review found no bugs this round. Build + lint clean.

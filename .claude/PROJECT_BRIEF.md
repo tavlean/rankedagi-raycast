@@ -4,7 +4,7 @@
 A Raycast extension that puts rankedagi.com in the launcher: search any AI model and see its RAGI composites, benchmark scores, pricing and links; search any benchmark and see how every model ranks on it; ask Raycast AI scores questions via extension tools. Target: the public Raycast Store (it doubles as marketing for the site). Built and operated by Tav (solo), same working style as the site repo: plain language, low cognitive load, checkpoint commits, extensive docs.
 
 ## Relationship to the site repo
-`../RankedAGI` is the data source and a SEPARATE initiative (score model v2 runs there in parallel sessions). This repo must not require changes there beyond the one additive `/api/export` endpoint (roadmap phase R1). The endpoint's JSON shape is contract F1 in `docs/fable-plans/ROADMAP.md` — additive evolution only.
+The site repo at `~/Development/Tavlean/RankedAGI` is the data source and a SEPARATE initiative (score model v2 runs there in parallel sessions). This repo must not require changes there beyond the one additive `/api/export` endpoint (roadmap phase R1). The endpoint's JSON shape is contract F1 in `docs/fable-plans/ROADMAP.md` — additive evolution only.
 
 ## Architecture in brief
 - Standard Raycast extension: npm package at the REPO ROOT (`package.json` doubles as the Raycast manifest), TypeScript + React, `@raycast/api` + `@raycast/utils`.
@@ -24,5 +24,5 @@ A Raycast extension that puts rankedagi.com in the launcher: search any AI model
 ## Pointers
 - Plan + status: `docs/fable-plans/ROADMAP.md` (single source of truth)
 - Raycast docs research (cited, 2026-07-02): `docs/research/2026-07-02-raycast-docs-report.md`; live docs via the raycast-api MCP server
-- Site repo brief: `../RankedAGI/.claude/PROJECT_BRIEF.md`
+- Site repo brief: `~/Development/Tavlean/RankedAGI/.claude/PROJECT_BRIEF.md`
 - Fable conventions: decisions → `docs/decisions/`, specs → `docs/specs/`, worklog → `docs/WORKLOG.md`
