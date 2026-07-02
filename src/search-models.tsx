@@ -121,23 +121,39 @@ function modelMarkdown(row: ModelRow, composites: BenchmarkDef[], realBenchmarks
   }
 
   if (row.levels && row.levels.length > 0) {
-    sections.push("### Reasoning Levels", reasoningLevelsTable(row, composites, realBenchmarks));
+    const levelsTable = reasoningLevelsTable(row, composites, realBenchmarks);
+
+    if (levelsTable) {
+      sections.push("### Reasoning Levels", levelsTable);
+    }
   }
 
   return sections.join("\n\n");
 }
 
+// Renders only what actually has values: a column (RAGI Overall included) must
+// have a score on at least one level, a level must have a score in at least
+// one column. Returns null when nothing qualifies — freshly-created empty
+// levels must never appear as a blank table.
 function reasoningLevelsTable(row: ModelRow, composites: BenchmarkDef[], realBenchmarks: BenchmarkDef[]) {
   const levels = row.levels ?? [];
   const ragiOverall = composites.find((composite) => composite.key === "ragi");
   const scoredBenchmarks = realBenchmarks
     .filter((benchmark) => levels.some((level) => hasScore(level, benchmark.key)))
     .slice(0, 5);
-  const columns = [ragiOverall, ...scoredBenchmarks].filter(Boolean) as BenchmarkDef[];
+  const columns = [ragiOverall, ...scoredBenchmarks].filter(
+    (benchmark): benchmark is BenchmarkDef =>
+      benchmark !== undefined && levels.some((level) => hasScore(level, benchmark.key)),
+  );
+  const scoredLevels = levels.filter((level) => columns.some((benchmark) => hasScore(level, benchmark.key)));
+
+  if (columns.length === 0 || scoredLevels.length === 0) {
+    return null;
+  }
 
   return table(
     ["Level", ...columns.map((benchmark) => benchmark.name)],
-    levels.map((level) => [
+    scoredLevels.map((level) => [
       level.effortLabel ?? "base",
       ...columns.map((benchmark) => formatScore(level[benchmark.key], benchmark)),
     ]),
