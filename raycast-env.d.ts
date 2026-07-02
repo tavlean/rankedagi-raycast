@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
 type ExtensionPreferences = {
-  /** Data URL - Override to a local RankedAGI dev server during development (e.g. http://127.0.0.1:5197/api/export). */
+  /** Data URL - Advanced: override the data endpoint. Defaults to the official rankedagi.com export. */
   "dataUrl": string
 }
 
