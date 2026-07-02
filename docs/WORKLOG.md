@@ -2,6 +2,13 @@
 
 Newest entries first. Every session that changes the project appends: date, what changed, why, gotchas for the next model.
 
+## 2026-07-02 (later, same session) — R3 built: four AI tools + ai.yaml
+
+- Tools `search-models` / `get-model` / `rank-models-by-benchmark` / `compare-models` in `src/tools/`, manifest `tools` array, `ai.yaml` with instructions + 3 evals. Executed by Codex from a spec brief; review found no bugs this round. Build + lint clean.
+- Architecture note: tools can't use React hooks, so data flows through `src/lib/dataset.ts` (plain fetch + `Cache` namespace "dataset", 1 h TTL, stale fallback on fetch failure). Shared logic extracted to `constants.ts` / `collections.ts` / `resolve.ts`; `data.ts` (the hook) now consumes the same derivations — one source of truth.
+- Per current docs, AI instructions/evals belong in root `ai.yaml`, NOT `package.json.ai` (older examples show the latter — don't regress this).
+- Next: Tav end-to-end try (both commands + one @rankedagi AI question), then R4 store prep.
+
 ## 2026-07-02 — Repo founded; R1 + R2 built (extension works headless; Raycast try pending)
 
 - Session flow: Tav's brief → Raycast docs research (report in `docs/research/`, cited) → alignment answers locked (separate repo / public Store / v1 = two commands + AI tools) → roadmap → build.

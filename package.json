@@ -23,6 +23,28 @@
       "description": "Search benchmarks and see how every model ranks on them."
     }
   ],
+  "tools": [
+    {
+      "name": "search-models",
+      "title": "Search Models",
+      "description": "Search RankedAGI AI models by name, slug, organization, or family and return a compact ranked list with RAGI scores."
+    },
+    {
+      "name": "get-model",
+      "title": "Get Model",
+      "description": "Get one RankedAGI model's identity, pricing, RAGI composite scores, benchmark scores, reasoning levels, and RankedAGI URL."
+    },
+    {
+      "name": "rank-models-by-benchmark",
+      "title": "Rank Models by Benchmark",
+      "description": "Rank RankedAGI AI models by a specific benchmark or RAGI composite, resolving benchmark keys, names, and short names."
+    },
+    {
+      "name": "compare-models",
+      "title": "Compare Models",
+      "description": "Compare 2 to 5 RankedAGI AI models across the five RAGI composites or selected benchmark scores."
+    }
+  ],
   "preferences": [
     {
       "name": "dataUrl",

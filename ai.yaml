@@ -1,0 +1,63 @@
+instructions: |
+  RankedAGI ranks AI models by benchmark scores and RAGI composite scores.
+  The tools already format percent scores and benchmark-specific values, so do not multiply or reformat returned scores.
+  Use rank-models-by-benchmark for questions asking for the best or top models at a benchmark or RAGI category.
+  Use get-model for single-model questions about scores, pricing, release details, links, or reasoning levels.
+  Use compare-models for head-to-head model comparisons.
+  Use search-models when the user is trying to find models by name, organization, slug, or family.
+evals:
+  - input: "@rankedagi what are the best models for SWE-Bench Pro?"
+    mocks:
+      rank-models-by-benchmark:
+        benchmark:
+          name: "SWEBench Pro"
+          key: "swe-bench-pro"
+        ranking:
+          - rank: 1
+            model: "Claude Fable 5"
+            org: "Anthropic"
+            score: "79.2%"
+          - rank: 2
+            model: "Claude Sonnet 5"
+            org: "Anthropic"
+            score: "74.1%"
+    expected:
+      - callsTool:
+          name: "rank-models-by-benchmark"
+          arguments:
+            benchmark:
+              includes: "SWE"
+  - input: "@rankedagi how does Claude Opus 4.8 score?"
+    mocks:
+      get-model: |
+        Claude Opus 4.8 (claude-opus-4-8)
+        Org: Anthropic
+        Composites: RankedAGI Overall: 84.2%; RankedAGI Coding: 87.3%
+    expected:
+      - callsTool:
+          name: "get-model"
+          arguments:
+            model:
+              includes: "Claude Opus"
+  - input: "@rankedagi compare GPT 5.5 Pro and Claude Opus 4.8 on coding and math"
+    mocks:
+      compare-models:
+        models:
+          - model: "GPT 5.5 Pro"
+            org: "OpenAI"
+            slug: "gpt-5-5-pro"
+          - model: "Claude Opus 4.8"
+            org: "Anthropic"
+            slug: "claude-opus-4-8"
+        benchmarks:
+          - benchmark: "RankedAGI Coding"
+            key: "ragi_code"
+            scores:
+              GPT 5.5 Pro: "91.0%"
+              Claude Opus 4.8: "87.3%"
+    expected:
+      - callsTool:
+          name: "compare-models"
+          arguments:
+            models:
+              includes: "GPT 5.5 Pro"

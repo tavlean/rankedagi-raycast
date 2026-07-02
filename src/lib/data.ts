@@ -1,9 +1,9 @@
 import { getPreferenceValues } from "@raycast/api";
 import { useFetch } from "@raycast/utils";
 import { useMemo } from "react";
-import { BenchmarkDef, Dataset } from "./types";
-
-const COMPOSITE_KEYS = ["ragi", "ragi_code", "ragi_agentic", "ragi_reasoning", "ragi_math"] as const;
+import { deriveDatasetCollections } from "./collections";
+import { DEFAULT_DATA_URL } from "./constants";
+import { Dataset } from "./types";
 
 type Preferences = {
   dataUrl?: string;
@@ -11,7 +11,7 @@ type Preferences = {
 
 export function useDataset() {
   const preferences = getPreferenceValues<Preferences>();
-  const dataUrl = preferences.dataUrl || "https://rankedagi.com/api/export";
+  const dataUrl = preferences.dataUrl || DEFAULT_DATA_URL;
   const fetchState = useFetch<Dataset>(dataUrl, {
     keepPreviousData: true,
     failureToastOptions: {
@@ -20,26 +20,9 @@ export function useDataset() {
   });
 
   return useMemo(() => {
-    const benchmarks = fetchState.data?.benchmarks ?? [];
-    const benchmarksByKey = new Map<string, BenchmarkDef>(benchmarks.map((benchmark) => [benchmark.key, benchmark]));
-    const realBenchmarks = benchmarks
-      .filter(
-        (benchmark) => benchmark.managedByRagi !== true && benchmark.hidden !== true && benchmark.archived !== true,
-      )
-      .sort(compareBenchmarks);
-    const composites = COMPOSITE_KEYS.map((key) => benchmarksByKey.get(key)).filter(Boolean) as BenchmarkDef[];
-
     return {
       ...fetchState,
-      benchmarksByKey,
-      realBenchmarks,
-      composites,
+      ...deriveDatasetCollections(fetchState.data),
     };
   }, [fetchState]);
-}
-
-function compareBenchmarks(a: BenchmarkDef, b: BenchmarkDef) {
-  return (
-    (a.sortOrder ?? Number.MAX_SAFE_INTEGER) - (b.sortOrder ?? Number.MAX_SAFE_INTEGER) || a.name.localeCompare(b.name)
-  );
 }

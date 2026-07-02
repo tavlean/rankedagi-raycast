@@ -2,7 +2,7 @@
 
 **This file is the single source of truth for this initiative's plan and status.** The "Current phase" line and the checkboxes ARE the status. History lives in `docs/WORKLOG.md`. The main site's roadmap lives in the site repo (`../RankedAGI/docs/fable-plans/ROADMAP.md`) and covers a different initiative (score model v2); this initiative deliberately stays out of its way — see "Parallel-work rules" below.
 
-Current phase: **R2 built (2026-07-02) — unticked until Tav browses models + benchmarks in Raycast via `npm run dev`. R1 shipped the same day (endpoint live on next site deploy). R3 (AI tools) in progress.**
+Current phase: **R1 done; R2 + R3 BUILT (2026-07-02) — both unticked until Tav tries them in Raycast (`npm run dev` here, then browse both commands and ask @rankedagi a scores question). The endpoint goes live with the next site deploy; until then set the extension's Data URL preference to a local site dev server (`http://127.0.0.1:<port>/api/export`). Next after Tav's confirmation: R4 store submission (needs his Raycast handle).**
 
 ## Vision
 
@@ -36,6 +36,7 @@ RankedAGI in the launcher: hit the Raycast hotkey, type a model name, and see ho
 
 - [ ] **R3 — AI tools** [execute] — manifest `tools` array + `src/tools/`: `search-models` (query/org/limit → compact ranked list), `get-model` (slug or name → facts + notable scores), `rank-models-by-benchmark` (benchmark key or name → top N), `compare-models` (models[] × benchmarks[] → comparison table). All read-only, built on F2, JSDoc-documented inputs (that's what Raycast AI reads), capped output rows, disambiguation-friendly (benchmark names resolved fuzzily but echoed back precisely). Add `ai.yaml` instructions + a few evals per the current AI-extension docs.
   Depends on: R2. Done when: @rankedagi in Raycast AI answers a scores question correctly end-to-end.
+  *Status 2026-07-02: BUILT — four tools + `ai.yaml` (instructions + 3 evals, per current docs AI properties live in root `ai.yaml`, not `package.json.ai`); tools use a non-hook data path (`src/lib/dataset.ts`: fetch + `Cache` stale-fallback, 1 h TTL) sharing `constants.ts`/`collections.ts`/`resolve.ts` with the view commands; build + lint clean. Unticked until Tav's end-to-end try.*
 
 - [ ] **R4 — Store submission** [execute, needs Tav] — icon light/dark check (`icon@dark.png` if needed), 3–6 screenshots at 2000×1250 PNG, `CHANGELOG.md` (`## [Initial Release] - {PR_MERGE_DATE}`), README, metadata categories, then `npm run publish` (opens the PR to `raycast/extensions` automatically; needs Tav's GitHub auth and his **Raycast account handle** in `author` — placeholder `tavlean` must be confirmed first). Repo-level extras (`docs/`, `.claude/`) must not ship in the store PR — the publish flow packages the extension files; verify the PR contents before submitting.
   Depends on: R2 (R3 nice-to-have but v1 with tools reviews better as one submission — decide at submission time whether to wait for R3).
