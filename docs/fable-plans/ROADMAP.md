@@ -2,7 +2,7 @@
 
 **This file is the single source of truth for this initiative's plan and status.** The "Current phase" line and the checkboxes ARE the status. History lives in `docs/WORKLOG.md`. The main site's roadmap lives in the site repo (`../RankedAGI/docs/fable-plans/ROADMAP.md`) and covers a different initiative (score model v2); this initiative deliberately stays out of its way — see "Parallel-work rules" below.
 
-Current phase: **R1 + R2 — endpoint and core commands, started 2026-07-02.**
+Current phase: **R2 built (2026-07-02) — unticked until Tav browses models + benchmarks in Raycast via `npm run dev`. R1 shipped the same day (endpoint live on next site deploy). R3 (AI tools) in progress.**
 
 ## Vision
 
@@ -24,7 +24,7 @@ RankedAGI in the launcher: hit the Raycast hotkey, type a model name, and see ho
 
 ## Phases
 
-- [ ] **R1 — `/api/export` endpoint in the site repo** [execute] — a prerendered SvelteKit endpoint next to the existing `/api/ragi-simulated` + `/api/score-provenance` (same pattern: `export const prerender = true`, `json()` with `cache-control: public, max-age=3600`). Composes the F1 shape by reusing the site's own `$lib/families.js` helpers (`collapseModels`, `realBenchmarkKeys`, `getFamilyRows`) so representative/level logic can never drift from the site. Shaping logic in a pure helper + Vitest unit test. Goes live on the next site deploy; until then the extension dev-tests against `npm run dev` on the site repo via its Data URL preference.
+- [x] **R1 — `/api/export` endpoint in the site repo** [execute] — *done 2026-07-02: `src/routes/api/export/+server.js` + pure helper `src/lib/server/exportDataset.js` + 3 unit tests, committed to the site repo (`3b452b2`); verified live on a dev server (208 models / 78 benchmarks / 14 families with levels / ~200 KB).* — a prerendered SvelteKit endpoint next to the existing `/api/ragi-simulated` + `/api/score-provenance` (same pattern: `export const prerender = true`, `json()` with `cache-control: public, max-age=3600`). Composes the F1 shape by reusing the site's own `$lib/families.js` helpers (`collapseModels`, `realBenchmarkKeys`, `getFamilyRows`) so representative/level logic can never drift from the site. Shaping logic in a pure helper + Vitest unit test. Goes live on the next site deploy; until then the extension dev-tests against `npm run dev` on the site repo via its Data URL preference.
   Done when: endpoint returns the F1 shape locally, unit test green, committed to the site repo.
 
 - [ ] **R2 — Extension scaffold + the two core commands** [execute] — this repo becomes a working, store-grade extension:
